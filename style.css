@@ -1,0 +1,42 @@
+table, th, td {
+    border: 1px solid;
+  }
+
+  table {
+    width: 100%;
+  }
+  .certificateborder {
+    border: 1px solid rgb(197, 174, 174);
+  }
+  .imgdiv{
+    float: left;
+    display: flex; /* Add this */
+    justify-content: center; /* Add this */
+  }
+  .Inputs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .Inputs select {
+    width: calc(33.33% - 10px); /* subtracting margin from total width */
+    margin-right: 10px; /* margin between select boxes */
+  }
+  
+  .Inputs select:last-of-type {
+    margin-right: 0; /* remove margin for the last select box */
+  }
+  
+  @media screen and (max-width: 768px) {
+    .Inputs select {
+      width: 100%; /* set width to 100% on smaller screens */
+      margin-right: 0; /* remove margin */
+      margin-bottom: 10px; /* add margin bottom */
+    }
+  }
+  #rating {
+    width: 100%;
+  }
+    
