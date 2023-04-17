@@ -81,33 +81,34 @@ const yearFilter = document.getElementById('year');
   }
 
   // main work start here
-  const filterMovies = () => {
-    const selectedGenre = genreFilter.value;
-    const selectedRating = ratingFilter.value;
-    const selectedlanguage = languageFilter.value;
-    const selectedYear = yearFilter.value;
+  function filterMovies(Fdata) {
+    return function () {
+      const selectedGenre = genreFilter.value;
+      const selectedRating = ratingFilter.value;
+      const selectedlanguage = languageFilter.value;
+      const selectedYear = yearFilter.value;
 
-    const filteredMovies = data.filter(movie => {
-      const yearFromDate = new Date(movie.release_date).getFullYear();
+      const filteredMovies = Fdata.filter(movie => {
+        const yearFromDate = new Date(movie.release_date).getFullYear();
 
-      const genreMatch = selectedGenre === 'all' || movie.genres.includes(selectedGenre);
-      const ratingMatch = selectedRating === 'all' || movie.vote_average >= selectedRating;
-      const languageMatch = selectedlanguage === 'all' || movie.original_language == selectedlanguage;
-      const yearMatch = selectedYear === 'all' || yearFromDate == selectedYear;
-      return genreMatch && ratingMatch && languageMatch && yearMatch;
-    });
+        const genreMatch = selectedGenre === 'all' || movie.genres.includes(selectedGenre);
+        const ratingMatch = selectedRating === 'all' || movie.vote_average >= selectedRating;
+        const languageMatch = selectedlanguage === 'all' || movie.original_language == selectedlanguage;
+        const yearMatch = selectedYear === 'all' || yearFromDate == selectedYear;
+        return genreMatch && ratingMatch && languageMatch && yearMatch;
+      });
 
 
-    
-    const table = document.getElementById('table');
 
-    let movieRows = "";
+      const table = document.getElementById('table');
 
-    const sortedMovies = filteredMovies.sort((a, b) => b.popularity - a.popularity);
-    movieRows += `<tr><th>RANK</th><th>MOVIE</th><th>YEAR</th></tr>`;
-    sortedMovies.forEach((movie, index) => {
-      const year = new Date(movie.release_date).getFullYear();
-      movieRows += `<tr><td>${index + 1}</td>
+      let movieRows = "";
+
+      const sortedMovies = filteredMovies.sort((a, b) => b.popularity - a.popularity);
+      movieRows += `<tr><th>RANK</th><th>MOVIE</th><th>YEAR</th></tr>`;
+      sortedMovies.forEach((movie, index) => {
+        const year = new Date(movie.release_date).getFullYear();
+        movieRows += `<tr><td>${index + 1}</td>
                           <td><div class="imgdiv"><img src="https://image.tmdb.org/t/p/w45${movie.poster_path}"></img></div>
                           <div class="moviedet"><p></p><a href='${movie.homepage}' target="_blank">${movie.title}</a>
                           <br /> <span class="certificateborder"> ${movie.certification}</span>, ${movie.genres}&#8226;  ${convertMinutesToHours(movie.runtime)} </div>
@@ -115,19 +116,19 @@ const yearFilter = document.getElementById('year');
                           <td>${year}</td>
                       </tr>`;
 
-    });
-    table.innerHTML = movieRows;
-
+      });
+      table.innerHTML = movieRows;
+    }
   }
   addGenresOption();
   addYearOption();
   addLanguageOption();
   addRatingOption();
 
-  genreFilter.addEventListener('change', filterMovies);
-  ratingFilter.addEventListener('change', filterMovies);
-  yearFilter.addEventListener('change', filterMovies);
-  languageFilter.addEventListener('change', filterMovies);
+  genreFilter.addEventListener('change', filterMovies(data));
+  ratingFilter.addEventListener('change', filterMovies(data));
+  yearFilter.addEventListener('change', filterMovies(data));
+  languageFilter.addEventListener('change', filterMovies(data));
 
   filterMovies();
 })();
